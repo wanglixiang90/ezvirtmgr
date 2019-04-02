@@ -1,0 +1,46 @@
+网卡/网桥配置文件格式
+
+1、网卡配置格式文件
+
+vim  /etc/sysconfig/network-scripts/ifcfg-eht0
+
+TYPE=Ethernet
+BOOTPROTO=none
+NAME=eth0
+DEVICE=eth0
+ONBOOT=yes
+
+NM_CONTROLLED=no
+BRIDGE=br0
+
+
+2、网桥配置格式文件
+
+vim  /etc/sysconfig/network-scripts/ifcfg-br0
+
+TYPE=Bridge
+BOOTPROTO=none
+IPADDR0=192.168.2.10
+PREFIX0=24
+GATEWAY0=192.168.2.1
+NAME=br0
+DEVICE=br0
+ONBOOT=yes
+DNS1=202.96.128.86
+
+
+3、网桥永久静态路由格式文件
+
+vim  /etc/sysconfig/network-scripts/route-br0
+
+192.168.1.0/24  via  192.168.2.1  dev  br0
+192.168.3.0/24  via  192.168.2.1  dev  br0
+
+
+1、2、3配置完成，执行： 
+
+systemctl  stop  NetworkManager      
+
+#####重要！不用此服务时开机不要启用
+
+systemctl  restart  network
